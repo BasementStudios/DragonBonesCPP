@@ -13,7 +13,7 @@
 #include <functional>
 #include <vector>
 
-#include <dragonBones\DragonBonesHeaders.h>
+#include <dragonBones/DragonBonesHeaders.h>
 
 DRAGONBONES_NAMESPACE_BEGIN
 
@@ -40,7 +40,7 @@ public:
 		}*/
 	}
 
-	virtual void dispatchDBEvent(const std::string& type, EventObject * value) override
+	virtual void dispatchDBEvent(const std::string& type, EventObject* value) override
 	{
 		for (auto& listener : _listeners[type])
 		{

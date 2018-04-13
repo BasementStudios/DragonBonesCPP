@@ -12,7 +12,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "SFMLSlot.h"
 #include "SFMLTextureData.h"
@@ -206,14 +206,14 @@ Armature* SFMLFactory::_buildArmature(const BuildArmaturePackage& dataPackage) c
 	return armature;
 }
 
-Slot* SFMLFactory::_buildSlot(const BuildArmaturePackage& dataPackage, SlotData* slotData, std::vector<DisplayData*>* displays, Armature* armature) const
+Slot* SFMLFactory::_buildSlot(const BuildArmaturePackage& dataPackage, const SlotData* slotData, Armature* armature) const
 {
 	auto slot = BaseObject::borrowObject<SFMLSlot>();
 	auto wrapperDisplay = new SFMLDisplay();
 
 	_wrapperSlots.push_back(std::unique_ptr<SFMLSlot>(slot));
 
-	slot->init(slotData, displays, wrapperDisplay, wrapperDisplay);
+	slot->init(slotData, armature, wrapperDisplay, wrapperDisplay);
 
 	return slot;
 }

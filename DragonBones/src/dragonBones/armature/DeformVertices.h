@@ -20,12 +20,33 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef DRAGONBONES_CC_HEADERS_H
-#define DRAGONBONES_CC_HEADERS_H
+#ifndef DRAGONBONES_DEFORMVERTICES_H
+#define DRAGONBONES_DEFORMVERTICES_H
 
-#include "CCTextureAtlasData.h"
-#include "CCArmatureDisplay.h"
-#include "CCSlot.h"
-#include "CCFactory.h"
+#include "../core/BaseObject.h"
 
-#endif // DRAGONBONES_CC_HEADERS_H
+DRAGONBONES_NAMESPACE_BEGIN
+
+/**
+ * @internal
+ */
+class DeformVertices : public BaseObject
+{
+    BIND_CLASS_TYPE_A(DeformVertices);
+
+public:
+    bool verticesDirty;
+    std::vector<float> vertices;
+    std::vector<Bone*> bones;
+    const VerticesData* verticesData;
+
+protected:
+    virtual void _onClear() override;
+
+public:
+    void init(const VerticesData* weightData, Armature* armature);
+    bool isBonesUpdate() const;
+};
+
+DRAGONBONES_NAMESPACE_END
+#endif // DRAGONBONES_DEFORMVERTICES_H

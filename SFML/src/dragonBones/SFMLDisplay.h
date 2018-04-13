@@ -1,8 +1,9 @@
 /*
 *********************************************************************
-* File          : SFMLDisplay.h
+* File			: SFMLDisplay.h
 * Project		: DragonBonesSFML
-* Developers    : Piotr Krupa (piotrkrupa06@gmail.com)
+* Developers	: Piotr Krupa (piotrkrupa06@gmail.com)
+*				: Patryk (PsychoX) Ludwikowski <psychoxivi@gmail.com>
 * License   	: MIT License
 *********************************************************************
 */
@@ -11,69 +12,88 @@
 
 #include <memory>
 
-#include "SFMLMesh.h"
+#include <SFML/Graphics.hpp>
 
 DRAGONBONES_NAMESPACE_BEGIN
 
-class SFMLDisplay : public sf::Drawable
+class SFMLDisplay
 {
 public:
-	std::unique_ptr<SFMLMesh>		meshDisplay;
-	std::unique_ptr<sf::Sprite>		spriteDisplay;
+	const sf::Texture*			 	texture = nullptr;
+
+	std::vector<std::vector<int>>	verticesInTriagles;
+
+	std::vector<sf::Vertex>		 	verticesDisplay;
+
+	bool							visible = true;
 
 	sf::BlendMode					blendMode;
-	bool							visible;
-
-	sf::Vector2f					position;
-
+	
+	sf::PrimitiveType				primitiveType = sf::PrimitiveType::TriangleStrip;
 private:
-	Matrix							matrix;
-	sf::Vector2f					offset;
-	float							textureScale;
+	sf::Transform					transform;
+	
 
 public:
-	SFMLDisplay()
-	{
-		meshDisplay = nullptr;
-		spriteDisplay = nullptr;
-
-		visible = true;
-	}
-
+	SFMLDisplay() = default;
 	~SFMLDisplay() = default;
 
-	void setMatrix(const Matrix& matrix, const sf::Vector2f& offset, float textureScale)
+	void setMatrix(const Matrix& matrix, const sf::Vector2f& offset = {0.f, 0.f}, const float& scale = 0.f)
 	{
-		this->matrix = matrix;
-		this->offset = offset;
-		this->textureScale = textureScale;
+		this->transform = sf::Transform(
+			matrix.a * scale,	matrix.c * scale,	offset.x,
+			matrix.b * scale,	matrix.d * scale,	offset.y,
+			0.f,				0.f,				1.f
+		);
 	}
 
 	void setColor(const sf::Color& color)
 	{
-		if (spriteDisplay)
-			spriteDisplay->setColor(color);
-
-		if (meshDisplay)
-			meshDisplay->setColor(color);
+		for (auto& vert : verticesDisplay) 
+		{
+			vert.color = color;
+		}
 	}
 
-protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		if (visible)
+		if (visible) 
 		{
 			states.blendMode = blendMode;
-			states.transform *= sf::Transform(matrix.a * textureScale, matrix.c * textureScale, offset.x + position.x,
-											  matrix.b * textureScale, matrix.d * textureScale, offset.y + position.y,
-											  0.f, 0.f, 1.f);
+			states.texture = texture;
+			
+			states.transform.combine(this->transform);
 
-			if (spriteDisplay)
-				target.draw(*spriteDisplay, states);
-
-			if (meshDisplay)
-				target.draw(*meshDisplay, states);
+			target.draw(&verticesDisplay[0], verticesDisplay.size(), primitiveType, states);
 		}
+	}
+
+	sf::FloatRect getBoundingBox(const sf::Vector2f& position)
+	{
+		if (texture == nullptr)
+			return sf::FloatRect();
+
+		if (verticesDisplay.empty())
+			return sf::FloatRect();
+
+		sf::Vector2f min = verticesDisplay[0].position;
+		sf::Vector2f max = verticesDisplay[0].position;
+
+		for (auto& vert : verticesDisplay)
+		{
+			min.x = std::min(min.x, vert.position.x);
+			min.y = std::min(min.y, vert.position.y);
+			max.x = std::max(max.x, vert.position.x);
+			max.y = std::max(max.y, vert.position.y);
+		}
+
+		sf::FloatRect rect(min, max - min);
+
+		sf::Transform matrix;
+		matrix.translate(position).combine(this->transform);
+		rect = matrix.transformRect(rect);
+
+		return rect;
 	}
 };
 
