@@ -123,6 +123,7 @@ void Armature::_addSlot(Slot* value)
 {
     if (std::find(_slots.begin(), _slots.end(), value) == _slots.end())
     {
+        value->_setZorder(_slots.size());
         _slots.push_back(value);
     }
 }
@@ -204,7 +205,7 @@ void Armature::advanceTime(float passedTime)
     if (_slotsDirty)
     {
         _slotsDirty = false;
-        std::sort(_slots.begin(), _slots.end(), Armature::_onSortSlots);
+        //std::sort(_slots.begin(), _slots.end(), Armature::_onSortSlots);
     }
 
     // Update bones and slots.
