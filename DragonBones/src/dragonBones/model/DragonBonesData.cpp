@@ -44,7 +44,7 @@ void DragonBonesData::addArmature(ArmatureData* value)
 {
     if (armatures.find(value->name) != armatures.end()) 
     {
-        DRAGONBONES_ASSERT(false, "Same armature: " + value->name);
+        throw std::runtime_error("Same armature: " + value->name);
         return;
     }
 

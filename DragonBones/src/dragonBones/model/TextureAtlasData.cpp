@@ -48,7 +48,7 @@ void TextureAtlasData::addTexture(TextureData* value)
 {
     if (textures.find(value->name) != textures.cend()) 
     {
-        DRAGONBONES_ASSERT(false, "Same texture: " + value->name);
+        throw std::runtime_error("Same texture: " + value->name);
         return;
     }
 

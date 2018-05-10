@@ -34,10 +34,10 @@
 #include <sstream>
 #include <assert.h>
 // dragonBones assert
-#define DRAGONBONES_ASSERT(cond, msg) \
-do { \
-    assert(cond); \
-} while (0)
+//#define DRAGONBONES_ASSERT(cond, msg) \
+//do { \
+//    assert(cond); \
+//} while (0)
 
 // namespace dragonBones {}
 #define DRAGONBONES_NAMESPACE_BEGIN namespace dragonBones {

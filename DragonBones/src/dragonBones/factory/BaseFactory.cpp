@@ -302,7 +302,10 @@ std::pair<void*, DisplayType> BaseFactory::_getSlotDisplay(const BuildArmaturePa
 
 DragonBonesData* BaseFactory::parseDragonBonesData(const char* rawData, const std::string& name, float scale)
 {
-    DRAGONBONES_ASSERT(rawData != nullptr, "");
+    if (rawData != nullptr)
+    {
+        throw std::runtime_error("rawData is nullptr");
+    }
 
     DataParser* dataParser = nullptr;
 
@@ -364,7 +367,7 @@ void BaseFactory::addDragonBonesData(DragonBonesData* data, const std::string& n
             return;
         }
 
-        DRAGONBONES_ASSERT(false, "Can not add same name data: " + name);
+        throw std::runtime_error("Can not add same name data: " + name);
         return;
     }
 
@@ -450,7 +453,7 @@ Armature * BaseFactory::buildArmature(const std::string& armatureName, const std
     BuildArmaturePackage dataPackage;
     if (!_fillBuildArmaturePackage(dataPackage, dragonBonesName, armatureName, skinName, textureAtlasName))
     {
-        DRAGONBONES_ASSERT(false, "No armature data: " + armatureName + ", " + (!dragonBonesName.empty() ? dragonBonesName : ""));
+        throw std::runtime_error("No armature data: " + armatureName + ", " + (!dragonBonesName.empty() ? dragonBonesName : ""));
         return nullptr;
     }
 
@@ -503,7 +506,10 @@ void BaseFactory::replaceDisplay(Slot* slot, DisplayData* displayData, int displ
 
 bool BaseFactory::replaceSlotDisplay(const std::string& dragonBonesName, const std::string& armatureName, const std::string& slotName, const std::string& displayName, Slot* slot, int displayIndex) const
 {
-    DRAGONBONES_ASSERT(slot, "Arguments error.");
+    if (slot == nullptr)
+    {
+        throw std::runtime_error("Arguments error.");
+    }
 
     const auto armatureData = getArmatureData(armatureName, dragonBonesName);
     if (!armatureData || !armatureData->defaultSkin) 
@@ -524,7 +530,10 @@ bool BaseFactory::replaceSlotDisplay(const std::string& dragonBonesName, const s
 
 bool BaseFactory::replaceSlotDisplayList(const std::string& dragonBonesName, const std::string& armatureName, const std::string& slotName, Slot* slot) const
 {
-    DRAGONBONES_ASSERT(slot, "Arguments error.");
+    if (slot == nullptr)
+    {
+        throw std::runtime_error("Arguments error.");
+    }
 
     const auto armatureData = getArmatureData(armatureName, dragonBonesName);
     if (!armatureData || !armatureData->defaultSkin)
@@ -549,7 +558,10 @@ bool BaseFactory::replaceSlotDisplayList(const std::string& dragonBonesName, con
 
 bool BaseFactory::replaceSkin(Armature* armature, SkinData* skin, bool isOverride, const std::vector<std::string>* exclude) const
 {
-    DRAGONBONES_ASSERT(armature && skin, "Arguments error.");
+    if (armature == nullptr && skin == nullptr)
+    {
+        throw std::runtime_error("Arguments error.");
+    }
 
     auto success = false;
     const auto defaultSkin = skin->parent->defaultSkin;

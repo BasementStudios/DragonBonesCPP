@@ -807,7 +807,7 @@ PolygonBoundingBoxData* JSONDataParser::_parsePolygonBoundingBox(const rapidjson
     }
     else 
     {
-        DRAGONBONES_ASSERT(false, "Data error.\n Please reexport DragonBones Data to fixed the bug.");
+        throw std::runtime_error("Data error.\n Please reexport DragonBones Data to fixed the bug.");
     }
 
     return polygonBoundingBox;
@@ -1947,8 +1947,7 @@ DragonBonesData* JSONDataParser::_parseDragonBonesData(const rapidjson::Value& r
     }
     else
     {
-        DRAGONBONES_ASSERT(
-            false,
+        throw std::runtime_error(
             "Nonsupport data version: " + version + "\n" +
             "Please convert DragonBones data to support version.\n" +
             "Read more: https://github.com/DragonBones/Tools/"
@@ -1999,7 +1998,10 @@ void JSONDataParser::_parseTextureAtlasData(const rapidjson::Value& rawData, Tex
 
 DragonBonesData* JSONDataParser::parseDragonBonesData(const char* rawData, float scale)
 {
-    DRAGONBONES_ASSERT(rawData != nullptr, "");
+    if (rawData == nullptr)
+    {
+        throw std::runtime_error("rawData is nullptr");
+    }
 
     rapidjson::Document document;
     document.Parse(rawData);

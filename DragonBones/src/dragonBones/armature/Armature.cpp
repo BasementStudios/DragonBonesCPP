@@ -187,12 +187,12 @@ void Armature::advanceTime(float passedTime)
 
     if (_armatureData == nullptr)
     {
-        DRAGONBONES_ASSERT(false, "The armature has been disposed.");
+        throw std::runtime_error("The armature has been disposed.");
         return;
     }
     else if(_armatureData->parent == nullptr)
     {
-        DRAGONBONES_ASSERT(false, "The armature data has been disposed.\nPlease make sure dispose armature before call factory.clear().");
+        throw std::runtime_error("The armature data has been disposed.\nPlease make sure dispose armature before call factory.clear().");
         return;
     }
 

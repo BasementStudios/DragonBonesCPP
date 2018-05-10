@@ -5,6 +5,7 @@
 #include "../armature/Armature.h"
 #include "../armature/Bone.h"
 #include "../armature/Slot.h"
+#include "../model/DragonBonesData.h"
 #include "AnimationState.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
@@ -237,14 +238,12 @@ AnimationState* Animation::playConfig(AnimationConfig* animationConfig)
     const auto& animationName = animationConfig->animation;
     if (_animations.find(animationName) == _animations.end())
     {
-        DRAGONBONES_ASSERT(
-            false,
-            "Non-existent animation.\n" +
-            " DragonBones name: " + this->_armature->getArmatureData().parent->name +
-            " Armature name: " + this->_armature->name +
+       throw std::runtime_error(
+        "Non-existent animation. DragonBones name: " + this->_armature->getArmatureData()->parent->name +
+            " Armature name: " + this->_armature->getName() +
             " Animation name: " + animationName
-        );
-
+       );
+       
         return nullptr;
     }
 

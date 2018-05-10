@@ -210,7 +210,10 @@ void BinaryDataParser::_parseArray(const rapidjson::Value& rawData)
 
 DragonBonesData* BinaryDataParser::parseDragonBonesData(const char* rawData, float scale)
 {
-    DRAGONBONES_ASSERT(rawData != nullptr, "");
+	if (rawData == nullptr)
+	{
+		throw std::runtime_error("rawData is nullptr");
+	}
 
     if (
         rawData[0] != 'D' ||
@@ -219,7 +222,8 @@ DragonBonesData* BinaryDataParser::parseDragonBonesData(const char* rawData, flo
         rawData[3] != 'T'
     ) 
     {
-        DRAGONBONES_ASSERT(false, "Nonsupport data.");
+		throw std::runtime_error("Nonsupport data.");
+
         return nullptr;
     }
 

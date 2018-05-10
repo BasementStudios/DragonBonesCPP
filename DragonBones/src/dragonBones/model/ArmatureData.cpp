@@ -185,7 +185,7 @@ void ArmatureData::addBone(BoneData* value)
 {
     if (bones.find(value->name) != bones.cend()) 
     {
-        DRAGONBONES_ASSERT(false, "Same bone: " + value->name);
+        throw std::runtime_error("Same bone: " + value->name);
         return;
     }
 
@@ -197,7 +197,7 @@ void ArmatureData::addSlot(SlotData* value)
 {
     if (slots.find(value->name) != slots.cend())
     {
-        DRAGONBONES_ASSERT(false, "Same slot: " + value->name);
+        throw std::runtime_error("Same slot: " + value->name);
         return;
     }
 
@@ -209,7 +209,7 @@ void ArmatureData::addConstraint(ConstraintData * value)
 {
     if (constraints.find(value->name) != constraints.cend())
     {
-        DRAGONBONES_ASSERT(false, "Same constaint: " + value->name);
+        throw std::runtime_error("Same constaint: " + value->name);
         return;
     }
 
@@ -220,7 +220,7 @@ void ArmatureData::addSkin(SkinData* value)
 {
     if (skins.find(value->name) != skins.cend())
     {
-        DRAGONBONES_ASSERT(false, "Same skin: " + value->name);
+        throw std::runtime_error("Same skin: " + value->name);
         return;
     }
 
@@ -237,7 +237,7 @@ void ArmatureData::addAnimation(AnimationData* value)
 {
     if (animations.find(value->name) != animations.cend())
     {
-        DRAGONBONES_ASSERT(false, "Same animation: " + value->name);
+        throw std::runtime_error("Same animation: " + value->name);
         return;
     }
 

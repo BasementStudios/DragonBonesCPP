@@ -21,7 +21,7 @@ void BaseObject::_returnObject(BaseObject* object)
         }
         else
         {
-            DRAGONBONES_ASSERT(false, "The object is already in the pool.");
+            throw std::runtime_error("The object is already in the pool.");
         }
     }
     else
