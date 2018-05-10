@@ -302,7 +302,7 @@ std::pair<void*, DisplayType> BaseFactory::_getSlotDisplay(const BuildArmaturePa
 
 DragonBonesData* BaseFactory::parseDragonBonesData(const char* rawData, const std::string& name, float scale)
 {
-    if (rawData != nullptr)
+    if (rawData == nullptr)
     {
         throw std::runtime_error("rawData is nullptr");
     }
