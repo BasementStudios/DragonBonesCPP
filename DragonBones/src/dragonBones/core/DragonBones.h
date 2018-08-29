@@ -335,13 +335,13 @@ enum class TextureFormat
     RGBA5551
 };
 
-template <class T>
-std::string to_string(const T& value)
-{
-    std::ostringstream stream;
-    stream << value;
-    return stream.str();
-}
+//template <class T>
+//std::string to_string(const T& value)
+//{
+//    std::ostringstream stream;
+//    stream << value;
+//    return stream.str();
+//}
 
 template<class T>
 inline int indexOf(const std::vector<T>& vector, const T& value)

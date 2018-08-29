@@ -2,7 +2,7 @@
 #define DRAGONBONES_JSON_DATA_PARSER_H
 
 #include "DataParser.h"
-#include "rapidjson/document.h"
+#include "RapidJson/document.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
 
@@ -97,7 +97,7 @@ protected:
                 return rawData[key].GetString();
             }
 
-            return dragonBones::to_string(rawData[key].GetDouble());
+            return std::to_string(rawData[key].GetDouble());
         }
 
         return defaultValue;
